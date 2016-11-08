@@ -18,7 +18,7 @@ export default class DetailRow extends Component {
   onDoubleClickHandler() {
     this.setState({ isEditing: true });
     this.setState({ isComposing: true }, () => {
-      this.refs.itemInput.focus(); // AutoFocus won't work, this will focus input shown
+      this.itemInput.focus(); // AutoFocus won't work, this will focus input shown
     });
     this.setState({ value: this.props.text });  //  <-- shows current contact info in input
     return this.props.editItem();
@@ -58,7 +58,7 @@ export default class DetailRow extends Component {
     const itemClass = this.state.isEditing ? 'detail editing' : 'detail';
     return (
       <div className={itemClass}>
-        <label htmlFor="contact" ref="text" onDoubleClick={() => this.onDoubleClickHandler()} >
+        <label htmlFor="contact" ref={(c) => { this.text = c; }} onDoubleClick={() => this.onDoubleClickHandler()} >
           <p>{this.props.text}</p>
         </label>
         <input
@@ -67,7 +67,7 @@ export default class DetailRow extends Component {
           value={this.state.value}
           onChange={this.handleOnChange}
           type="text"
-          ref="itemInput"
+          ref={(c) => { this.itemInput = c; }}
           onKeyDown={this.handleKeyDown}
           onBlur={this.handleOnBlur}
         />

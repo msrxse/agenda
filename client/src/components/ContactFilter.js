@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
 import { List } from 'immutable';
 import autoBind from 'react-autobind';
@@ -17,7 +18,6 @@ export default class ContactFilter extends Component {
   render() {
     const letters = List(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
       'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z']);
-
     return (
       <div className="ContactFilter">
         <div className="all-btn">
@@ -28,6 +28,7 @@ export default class ContactFilter extends Component {
         </div>
 
         <div className="keypad">
+
           {letters.map(letter =>
             <label
               key={letter}
@@ -44,3 +45,4 @@ export default class ContactFilter extends Component {
     );
   }
 }
+/* eslint-disable jsx-a11y/no-static-element-interactions */
