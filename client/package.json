@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --progress --inline --colors --hot --config ./webpack.config.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/setup.js src/**/*spec.js",
+    "test": "mocha --compilers js:babel-core/register --require ./test/setup.js test/**/*spec.js",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
@@ -27,6 +27,7 @@
     "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
+    "jsdom": "^9.8.3",
     "mocha": "^3.1.0",
     "react-addons-test-utils": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.5",

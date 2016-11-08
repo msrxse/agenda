@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Hello World App
+  title: Contact User App
 # during dev, should point to your local machine
 host: localhost:8000
 # basePath prefixes all resource paths 
@@ -21,7 +21,7 @@ paths:
   /users:
     x-swagger-router-controller: user
     get:
-      description: Get all user of the system
+      description: Get all users
       # used as the method name of the controller
       operationId: getAllUsers
       responses:
@@ -36,13 +36,33 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    post:
+      description: add a new user to the list
+      operationId: newUser
+      # user info to be stored
+      parameters:
+        - name: data
+          description: User properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /user/{id}:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
     parameters:
       - name: id
         in: path
-        description: the id of the user to retrieve
+        description: the id of the user to work with
         required: true
         type: string
     get:
@@ -59,42 +79,86 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    put:
+      operationId: setUser
+      description: update a User
+      # define the parameters
+      parameters:
+        - name: data
+          description: User properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: delete a user
+      operationId: delUser
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
   User:
     properties:
-      id:
-        type: number
-      gender:
-        type: string
-      title:
-        type: string
-      first:
-        type: string
-      last:
-        type: string
-      email:
-        type: string
-      username:
-        type: string
-      registered:
-        type: number
-      dob:
-        type: number
-      phone:
-        type: string
-      cell:
-        type: string
-      picture:
-        type: string
-  HelloWorldResponse:
-    required:
-      - message
+     # The array of users
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: number
+            gender:
+              type: string
+            title:
+              type: string
+            first:
+              type: string
+            last:
+              type: string
+            email:
+              type: string
+            username:
+              type: string
+            registered:
+              type: number
+            dob:
+              type: number
+            phone:
+              type: string
+            cell:
+              type: string
+            picture:
+              type: string
+  GeneralResponse:
+    type: object
     properties:
-      message:
+      success:
+        type: number
+        description: returns 1 if successful
+      description:
         type: string
+        description: Success/failure general response 
+    required:
+      - success
+      - description
   ErrorResponse:
     required:
       - message
