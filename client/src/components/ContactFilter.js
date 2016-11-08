@@ -45,4 +45,3 @@ export default class ContactFilter extends Component {
     );
   }
 }
-/* eslint-disable jsx-a11y/no-static-element-interactions */

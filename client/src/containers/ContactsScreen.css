@@ -44,7 +44,6 @@ a:hover, a:active {
   text-align: left;
 }
 
-
 .display > p {
   padding: 20px;
 }
@@ -98,8 +97,13 @@ a:hover, a:active {
   position: absolute;
   top: 100px;
   left: 0;
-
 }
+
+.ContactFilter .keypad > label {
+  line-height: 30px;
+  width: 50px;
+}
+
 .all-btn > button {
   position: absolute;
   top: 40px;
