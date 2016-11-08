@@ -1,4 +1,4 @@
-# Project Title
+# Contact App
 
 This is a classic Contact app. The requirements are as follows:
 * A contact can be added, edited and deleted
