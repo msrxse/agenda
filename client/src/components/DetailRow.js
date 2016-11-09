@@ -56,6 +56,10 @@ export default class DetailRow extends Component {
 
   render() {
     const itemClass = this.state.isEditing ? 'detail editing' : 'detail';
+    //  Avoid showing the id (in show and edit modes)
+    if (this.props.labelText === 'id' || this.props.text === 'id') {
+      return null;
+    }
     return (
       <div className={itemClass}>
         <label htmlFor="contact" ref={(c) => { this.text = c; }} onDoubleClick={() => this.onDoubleClickHandler()} >
