@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 import * as contactsActions from '../store/contacts/actions';
 import * as contactsSelectors from '../store/contacts/reducer';
-// import './ContactsScreen.css';
-// import styles from './ContactsScreen.css';
+import './ContactsScreen.css';
 
 import ContactDetail from '../components/ContactDetail';
 import ContactsList from '../components/ContactsList';

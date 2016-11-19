@@ -30,6 +30,13 @@ To install dependencies:
 npm install
 ```
 
+then, to run the Dev Server:
+
+```
+npm start
+```
+
+
     - Visit http://localhost:8080
 
 ## Methodology
