@@ -15,6 +15,25 @@ function getAllUsers(req, res) {
     })
 }
 
+// GET {filter}
+function searchUsers(req, res) {
+  User.findAll({
+    where: {
+      last: {
+        $like: req.swagger.params.filter.value+'%'
+      }
+    }
+  })
+    .then(function(users) {
+      res.status(200).json(users);
+    })
+    .catch(function(err) {
+      res.status(500).json({
+        message: err.message,
+      });
+    })
+}
+
 // POST
 function newUser(req, res) {
   User.create(
@@ -118,6 +137,7 @@ function delUser(req, res) {
 
 module.exports = {
   getAllUsers: getAllUsers,
+  searchUsers: searchUsers,
   newUser: newUser,
   getUser: getUser,
   setUser: setUser,

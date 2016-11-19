@@ -56,6 +56,28 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /users/search/{filter}:
+    x-swagger-router-controller: user
+    parameters:
+      - name: filter
+        in: path
+        description: Filter value
+        required: true
+        type: string
+    get:
+      description: Get users matching filter value (last names first letter)
+      # used as the method name of the controller
+      operationId: searchUsers
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/User"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /user/{id}:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
