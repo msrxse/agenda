@@ -23,7 +23,7 @@ export function fetchContacts() {
 export function filterContacts(currentFilter) {
   if (currentFilter === '/') return fetchContacts();
 
-  return dispatch => fetch(`//localhost:8000/users/search/${currentFilter}`)
+  return dispatch => fetch(`//localhost:8000/users/search${currentFilter}`)
     .then(response => response.json())
     .then((data) => {
       dispatch(receiveDataSuccess(data));

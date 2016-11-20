@@ -34,7 +34,7 @@ export default class ContactFilter extends Component {
               key={letter}
               htmlFor="options"
               className={`${this.props.currentFilter === letter ? 'active' : ''} btn sharp btn-outline-secondary`}
-              to={letter}
+              to={`/${letter}`}
             >
               <input type="radio" className="sr-only" /> {letter}
             </Link>
