@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
 import { List } from 'immutable';
+import { Link, browserHistory } from 'react-router';
 import autoBind from 'react-autobind';
 
 export default class ContactFilter extends Component {
@@ -22,22 +23,21 @@ export default class ContactFilter extends Component {
       <div className="ContactFilter">
         <div className="all-btn">
           <button
-            onClick={() => this.onClick('all')}
+            onClick={() => browserHistory.push('/')}
           ><h4>All Contacts <i className="fa fa-child" aria-hidden="true" /></h4>
           </button>
         </div>
 
         <div className="keypad">
-
           {letters.map(letter =>
-            <label
+            <Link
               key={letter}
               htmlFor="options"
               className={`${this.props.currentFilter === letter ? 'active' : ''} btn sharp btn-outline-secondary`}
-              onClick={() => this.onClick(letter)}
+              to={letter}
             >
               <input type="radio" className="sr-only" /> {letter}
-            </label>
+            </Link>
           )}
         </div>
 

@@ -4,7 +4,6 @@ import * as types from './actionTypes';
 const initialState = fromJS({
   contactsById: undefined,
   selected: undefined,
-  currentFilter: 'all',
   isPhantom: false,
 });
 
@@ -13,11 +12,6 @@ export default function reduce(state = initialState, action = {}) {
     case types.CONTACTS_FETCHED:
       return state.merge({
         contactsById: action.contactsById,
-      });
-    case types.CHANGE_FILTER:
-      return state.merge({
-        currentFilter: action.currentFilter,
-        selected: undefined,
       });
     case types.NEW_ITEM:
       return state.merge({
@@ -56,21 +50,9 @@ export default function reduce(state = initialState, action = {}) {
 
 // selectors
 
-export function getContacts(state) {
-  const currentFilter = state.contacts.get('currentFilter');
+export function getContacts(state, filter) {
   const contactsById = state.contacts.get('contactsById');
-  if (contactsById) {
-    return contactsById.filter(
-      item => currentFilter === 'all' || item.get('last').charAt(0).toLowerCase() === currentFilter
-    );
-  }
-  return undefined;
-}
-
-export function getFilter(state) {
-  const currentFilter = state.contacts.get('currentFilter');
-  // console.log(currentFilter);
-  return currentFilter;
+  return contactsById;
 }
 
 export function getSelected(state) {

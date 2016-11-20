@@ -16,6 +16,21 @@ export function fetchContacts() {
     .catch(error => dispatch(receiveDataFailure(error)));
 }
 
+/**
+ * GET: localhost:8000/users/search/:{filter}
+ * API call to retreive filtered list of users
+ */
+export function filterContacts(currentFilter) {
+  if (currentFilter === '/') return fetchContacts();
+
+  return dispatch => fetch(`//localhost:8000/users/search/${currentFilter}`)
+    .then(response => response.json())
+    .then((data) => {
+      dispatch(receiveDataSuccess(data));
+    })
+    .catch(error => dispatch(receiveDataFailure(error)));
+}
+
 function receiveDataSuccess(data) {
   const contactsById = data.map((contact) => {
     return {
@@ -110,7 +125,7 @@ export function deleteContact(itemId) {
 }
 
 /**
- * POST: localhost:8000/user
+ * POST: localhost:8000/users
  *  Creating a new contact
  */
 export function editNewContact(labelText, newText) {
@@ -153,10 +168,6 @@ export function editNewContact(labelText, newText) {
 
 function receiveDataFailure(error) {
   console.log(error, 'Theres been an error retreiving data');
-}
-
-export function filterContacts(currentFilter) {
-  return ({ type: types.CHANGE_FILTER, currentFilter });
 }
 
 export function addNewContact() {

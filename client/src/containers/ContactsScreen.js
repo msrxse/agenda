@@ -16,10 +16,6 @@ class ContactsScreen extends Component {
     autoBind(this);
   }
 
-  onKeypadClick(filter) {
-    this.props.dispatch(contactsActions.filterContacts(filter));
-  }
-
   editItem() {
     this.props.dispatch(contactsActions.editContact());
   }
@@ -73,23 +69,20 @@ class ContactsScreen extends Component {
         />
         <ContactsList
           contactsById={this.props.contactsById}
-          currentFilter={this.props.currentFilter}
           newItem={this.newItem}
           renderRow={this.renderRow}
         />
         <ContactFilter
-          onClick={this.onKeypadClick}
-          currentFilter={this.props.currentFilter}
+          currentFilter={this.props.params.filter || '/'}
         />
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    contactsById: contactsSelectors.getContacts(state),
-    currentFilter: contactsSelectors.getFilter(state),
+    contactsById: contactsSelectors.getContacts(state, ownProps.params.filter),
     selected: contactsSelectors.getSelected(state),
     isPhantom: contactsSelectors.getIsPhantom(state),
   };

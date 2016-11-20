@@ -5,7 +5,7 @@ import App from './App';
 import ContactsScreen from './containers/ContactsScreen';
 
 export default (
-  <Route path="/" component={App}>
+  <Route path="/(:filter)" component={App}>
     <IndexRoute component={ContactsScreen} />
   </Route>
 );
