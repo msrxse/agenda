@@ -208,6 +208,75 @@ a:hover, a:active {
   outline: none;
 }
 
+/* Pagination */
+
+.pagination-wrapper {
+  background-color: #393E46;
+  opacity: .6;
+  text-align: center;
+  width: 316px;
+
+  position: absolute;
+  top: 300px;
+  left: 0;
+}
+
+.previous {
+  margin: 0 8px;
+}
+
+.next{
+  margin-left: 8px;
+}
+.pagination {
+  display: inline-block;
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 5px 10px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #222831;
+  text-decoration: none;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  z-index: 2;
+  cursor: pointer;
+  background: #222831;
+  opacity: .6
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 3;
+  cursor: pointer;
+  background-color: #222831;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #777;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+/* End Pagination */
+
 .newContact {
   position: absolute;
   top: -40px;

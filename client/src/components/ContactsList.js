@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
+import UserPagination from './UserPagination';
 
 export default class ContactsList extends Component {
   constructor(props) {
@@ -36,13 +37,17 @@ export default class ContactsList extends Component {
         <div className="card-wrapper pre-scrollable">
           {this.props.contactsById.map(item => this.renderRowThroughProps(item))}
         </div>
-
+        <div className="pagination-wrapper">
+          <UserPagination
+            handlePageClick={data => console.log(data, 'yadayda')}
+            pageCount={20}
+          />
+        </div>
         <div className="newContact">
           <button onClick={this.newItem}>
             <h1><i className="fa fa-plus" /></h1>
           </button>
         </div>
-
       </div>
     );
   }
