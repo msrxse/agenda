@@ -16,6 +16,10 @@ class ContactsScreen extends Component {
     autoBind(this);
   }
 
+  handlePagination(limit, offset) {
+    this.props.dispatch(contactsActions.fetchContacts(limit, offset));
+  }
+
   editItem() {
     this.props.dispatch(contactsActions.editContact());
   }
@@ -69,6 +73,8 @@ class ContactsScreen extends Component {
         />
         <ContactsList
           contactsById={this.props.contactsById}
+          count={this.props.count}
+          changePage={this.handlePagination}
           newItem={this.newItem}
           renderRow={this.renderRow}
         />
@@ -85,6 +91,7 @@ function mapStateToProps(state, ownProps) {
     contactsById: contactsSelectors.getContacts(state, ownProps.params.filter),
     selected: contactsSelectors.getSelected(state),
     isPhantom: contactsSelectors.getIsPhantom(state),
+    count: contactsSelectors.getCount(state),
   };
 }
 

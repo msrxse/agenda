@@ -5,6 +5,7 @@ const initialState = fromJS({
   contactsById: undefined,
   selected: undefined,
   isPhantom: false,
+  count: 0,
 });
 
 export default function reduce(state = initialState, action = {}) {
@@ -12,6 +13,7 @@ export default function reduce(state = initialState, action = {}) {
     case types.CONTACTS_FETCHED:
       return state.merge({
         contactsById: action.contactsById,
+        count: action.count,
       });
     case types.NEW_ITEM:
       return state.merge({
@@ -63,4 +65,9 @@ export function getSelected(state) {
 export function getIsPhantom(state) {
   const isPhantom = state.contacts.get('isPhantom');
   return isPhantom;
+}
+
+export function getCount(state) {
+  const count = state.contacts.get('count');
+  return count;
 }

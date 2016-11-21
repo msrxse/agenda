@@ -1,5 +1,5 @@
 import { Map, fromJS, List, OrderedMap, toJS } from 'immutable';
-import 'whatwg-fetch';
+import fetch from 'isomorphic-fetch';
 import * as types from './actionTypes';
 import * as contactsSelectors from '../contacts/reducer';
 
@@ -7,13 +7,23 @@ import * as contactsSelectors from '../contacts/reducer';
  * GET: localhost:8000/users
  * API call to retreive all users
  */
-export function fetchContacts() {
-  return dispatch => fetch('//localhost:8000/users')
+export function fetchContacts(limit = types.LIMIT, offset = 0) {
+  let url = '//localhost:8000/users/';
+  const params = { limit, offset };
+  url += (url.indexOf('?') === -1 ? '?' : '&') + queryParams(params);
+
+  return dispatch => fetch(url)
     .then(response => response.json())
     .then((data) => {
       dispatch(receiveDataSuccess(data));
     })
     .catch(error => dispatch(receiveDataFailure(error)));
+}
+
+function queryParams(params) {
+  return Object.keys(params)
+    .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
+    .join('&');
 }
 
 /**
@@ -32,8 +42,8 @@ export function filterContacts(currentFilter) {
 }
 
 function receiveDataSuccess(data) {
-  console.log(data, 'this is data');
-  const contactsById = data.map((contact) => {
+  const contacts = data.rows;
+  const contactsById = contacts.map((contact) => {
     return {
       id: contact.id,
       first: contact.first,
@@ -45,7 +55,8 @@ function receiveDataSuccess(data) {
       picture: contact.picture,
     };
   });
-  return ({ type: types.CONTACTS_FETCHED, contactsById });
+  const count = data.count;
+  return ({ type: types.CONTACTS_FETCHED, contactsById, count });
 }
 
 /**

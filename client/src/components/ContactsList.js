@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import UserPagination from './UserPagination';
+import * as types from '../store/contacts/actionTypes';
 
 export default class ContactsList extends Component {
   constructor(props) {
@@ -14,13 +15,11 @@ export default class ContactsList extends Component {
     }
   }
 
-  renderLoading() {
-    return (
-      <div className="ContactsList">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  changePage = (data) => {
+    const selected = data.selected;
+    const offset = Math.ceil(selected * types.LIMIT);
+    return this.props.changePage(types.LIMIT, offset);
+  };
 
   renderRowThroughProps(item) {
     if (typeof this.props.renderRow === 'function') {
@@ -29,8 +28,23 @@ export default class ContactsList extends Component {
     return undefined;
   }
 
+  renderLoading() {
+    return (
+      <div className="ContactsList">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   render() {
     if (!this.props.contactsById) return this.renderLoading();
+
+    const pagination = this.props.count > types.LIMIT ? (
+      <UserPagination
+        handlePageClick={this.changePage}
+        pageCount={Math.ceil(this.props.count / types.LIMIT)}
+      />) : '';
+
     return (
       <div className="ContactsList">
         <h1 className="display-1">Contacts</h1>
@@ -38,10 +52,9 @@ export default class ContactsList extends Component {
           {this.props.contactsById.map(item => this.renderRowThroughProps(item))}
         </div>
         <div className="pagination-wrapper">
-          <UserPagination
-            handlePageClick={data => console.log(data, 'yadayda')}
-            pageCount={20}
-          />
+
+          {pagination}
+
         </div>
         <div className="newContact">
           <button onClick={this.newItem}>

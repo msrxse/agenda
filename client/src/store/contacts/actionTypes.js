@@ -10,3 +10,11 @@ export const CANCEL_EDITING = 'contacts.CANCEL_EDITING';
 export const DONE_EDITING = 'contacts.DONE_EDITING';
 
 export const LOAD_DATA_FAILURE = 'contacts.LOAD_DATA_FAILURE';
+
+/*
+ |----------------------
+ | Other Constants
+ |----------------------
+ */
+
+export const LIMIT = 10;  // Number of items per page (pagination)

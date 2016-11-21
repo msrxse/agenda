@@ -25,8 +25,8 @@ paths:
       # used as the method name of the controller
       operationId: getAllUsers
       parameters:
-       - $ref: "#/parameters/pageSize"
-       - $ref: "#/parameters/pageNumber"
+       - $ref: "#/parameters/limit"
+       - $ref: "#/parameters/offset"
       responses:
         "200":
           description: Success
@@ -61,8 +61,8 @@ paths:
     x-swagger-router-controller: user
     parameters:
       - $ref: "#/parameters/filter"
-      - $ref: "#/parameters/pageSize"
-      - $ref: "#/parameters/pageNumber"
+      - $ref: "#/parameters/limit"
+      - $ref: "#/parameters/offset"
     get:
       description: Get users matching filter value (last names first letter)
       # used as the method name of the controller
@@ -198,13 +198,13 @@ parameters:
     required: true
     description: Filter value
     type: string
-  pageSize:
-    name: pageSize
+  limit:
+    name: limit
     in: query
     description: Number of persons returned
     type: integer
-  pageNumber:
-    name: pageNumber
+  offset:
+    name: offset
     in: query
     description: Page number
     type: integer

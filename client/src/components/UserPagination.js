@@ -7,7 +7,7 @@ const UserPagination = ({ handlePageClick, pageCount }) => {
       <ReactPaginate
         previousLabel={'previous'}
         nextLabel={'next'}
-        breakLabel={<span className="break"><a href="">...</a></span>}
+        breakLabel={<span className="break"><a>...</a></span>}
         pageNum={pageCount}
         marginPagesDisplayed={1}
         pageRangeDisplayed={1}
