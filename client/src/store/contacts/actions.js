@@ -32,6 +32,7 @@ export function filterContacts(currentFilter) {
 }
 
 function receiveDataSuccess(data) {
+  console.log(data, 'this is data');
   const contactsById = data.map((contact) => {
     return {
       id: contact.id,

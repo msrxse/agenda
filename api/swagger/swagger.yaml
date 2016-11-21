@@ -24,13 +24,14 @@ paths:
       description: Get all users
       # used as the method name of the controller
       operationId: getAllUsers
+      parameters:
+       - $ref: "#/parameters/pageSize"
+       - $ref: "#/parameters/pageNumber"
       responses:
         "200":
           description: Success
           schema:
-            type: array
-            items:
-              $ref: "#/definitions/User"
+            $ref: "#/definitions/Users"
         # responses may fall through to errors
         default:
           description: Error
@@ -59,11 +60,9 @@ paths:
   /users/search/{filter}:
     x-swagger-router-controller: user
     parameters:
-      - name: filter
-        in: path
-        description: Filter value
-        required: true
-        type: string
+      - $ref: "#/parameters/filter"
+      - $ref: "#/parameters/pageSize"
+      - $ref: "#/parameters/pageNumber"
     get:
       description: Get users matching filter value (last names first letter)
       # used as the method name of the controller
@@ -72,7 +71,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/Users"
         # responses may fall through to errors
         default:
           description: Error
@@ -82,11 +81,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: user
     parameters:
-      - name: id
-        in: path
-        description: the id of the user to work with
-        required: true
-        type: string
+      - $ref: "#/parameters/id"
     get:
       description: Get a specific user by id
       # used as the method name of the controller
@@ -139,36 +134,39 @@ paths:
 definitions:
   User:
     properties:
-     # The array of users
-      users:
+      id:
+        type: number
+      gender:
+        type: string
+      title:
+        type: string
+      first:
+        type: string
+      last:
+        type: string
+      email:
+        type: string
+      username:
+        type: string
+      registered:
+        type: number
+      dob:
+        type: number
+      phone:
+        type: string
+      cell:
+        type: string
+      picture:
+        type: string
+  Users:
+    type: object
+    properties:
+      rows:
         type: array
         items:
-          type: object
-          properties:
-            id:
-              type: number
-            gender:
-              type: string
-            title:
-              type: string
-            first:
-              type: string
-            last:
-              type: string
-            email:
-              type: string
-            username:
-              type: string
-            registered:
-              type: number
-            dob:
-              type: number
-            phone:
-              type: string
-            cell:
-              type: string
-            picture:
-              type: string
+          $ref: "#/definitions/User"
+      count:
+        type: integer
   GeneralResponse:
     type: object
     properties:
@@ -187,3 +185,26 @@ definitions:
     properties:
       message:
         type: string
+parameters:
+  id:
+    name: id
+    in: path
+    required: true
+    description: the id of the user to work with
+    type: string
+  filter:
+    name: filter
+    in: path
+    required: true
+    description: Filter value
+    type: string
+  pageSize:
+    name: pageSize
+    in: query
+    description: Number of persons returned
+    type: integer
+  pageNumber:
+    name: pageNumber
+    in: query
+    description: Page number
+    type: integer

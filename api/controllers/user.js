@@ -3,8 +3,8 @@ var repo = new Repository();
 var User = repo.models.User;
 
 // GET
-function getAllUsers(req, res) {
-  User.findAll()
+function getAllUsers(req, res) { 
+  User.findAndCountAll({offset: 0, limit: 2})
     .then(function(users) {
       res.status(200).json(users);
     })
@@ -17,12 +17,14 @@ function getAllUsers(req, res) {
 
 // GET {filter}
 function searchUsers(req, res) {
-  User.findAll({
+  User.findAndCountAll({
     where: {
       last: {
         $like: req.swagger.params.filter.value+'%'
       }
-    }
+    },
+    offset: 0,
+    limit: 2
   })
     .then(function(users) {
       res.status(200).json(users);
