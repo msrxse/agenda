@@ -17,19 +17,10 @@ class ContactsScreen extends Component {
   }
 
   handlePagination(limit, offset) {
-    this.props.dispatch(contactsActions.fetchContacts(limit, offset));
+    this.props.dispatch(contactsActions.loadContacts(limit, offset));
   }
 
-  editItem() {
-    this.props.dispatch(contactsActions.editContact());
-  }
-  cancelEditing() {
-    this.props.dispatch(contactsActions.cancelEditingContact());
-  }
-  doneEditing(itemId, labelText, newText) {
-    this.props.dispatch(contactsActions.doneEditingContact(itemId, labelText, newText));
-  }
-
+  // Called when selecting a contact in list of Contacts
   showItem(itemId) {
     this.props.dispatch(contactsActions.selectContact(itemId));
   }
@@ -38,11 +29,29 @@ class ContactsScreen extends Component {
     this.props.dispatch(contactsActions.deleteContact(itemId));
   }
 
+  // Prepares new Item to be saved (Won't be saved yet)
   newItem() {
     this.props.dispatch(contactsActions.addNewContact());
   }
+
+  // Handles Edition of an existing contact
+  doneEditing(itemId, labelText, newText) {
+    this.props.dispatch(contactsActions.editContact(itemId, labelText, newText));
+  }
+
+  // Saves new Item
   editNewItem(labelText, newText) {
-    this.props.dispatch(contactsActions.editNewContact(labelText, newText));
+    this.props.dispatch(contactsActions.newContact(labelText, newText));
+  }
+
+  // Called when a record is being edited
+  editingItem() {
+    this.props.dispatch(contactsActions.editingContact());
+  }
+
+  // Called when a record edition has been canceled
+  cancelEditing() {
+    this.props.dispatch(contactsActions.cancelEditingContact());
   }
 
   renderRow(item) {
@@ -67,7 +76,7 @@ class ContactsScreen extends Component {
           contactsById={this.props.contactsById}
           isPhantom={this.props.isPhantom}
           editNewItem={this.editNewItem}
-          editItem={this.editItem}
+          editItem={this.editingItem}
           cancelEditing={this.cancelEditing}
           doneEditing={this.doneEditing}
         />

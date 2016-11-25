@@ -10,7 +10,7 @@ import routes from './routes';
 const store = configureStore();
 
 //  Fetching initial contacts
-// store.dispatch(contactsActions.fetchContacts());
+// store.dispatch(contactsActions.loadContacts());
 
 // Create an enhanced history that syncs navigation events with the store
 

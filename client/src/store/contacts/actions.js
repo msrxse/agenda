@@ -4,22 +4,8 @@ import * as types from './actionTypes';
 import * as contactsSelectors from '../contacts/reducer';
 
 /**
- * GET: localhost:8000/users
- * API call to retreive all users
+ * Helper: Adding params to url
  */
-export function fetchContacts(limit = types.LIMIT, offset = 0) {
-  let url = '//localhost:8000/users/';
-  const params = { limit, offset };
-  url += (url.indexOf('?') === -1 ? '?' : '&') + queryParams(params);
-
-  return dispatch => fetch(url)
-    .then(response => response.json())
-    .then((data) => {
-      dispatch(receiveDataSuccess(data));
-    })
-    .catch(error => dispatch(receiveDataFailure(error)));
-}
-
 function queryParams(params) {
   return Object.keys(params)
     .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
@@ -27,36 +13,32 @@ function queryParams(params) {
 }
 
 /**
+ * GET: localhost:8000/users
+ * API call to retreive all users
+ */
+export function loadContacts(limit = types.LIMIT, offset = 0) {
+  const baseUrl = '//localhost:8000';
+  let url = `${baseUrl}/users/`;
+  const params = { limit, offset };
+  url += (url.indexOf('?') === -1 ? '?' : '&') + queryParams(params);
+
+  return {
+    types: [types.CONTACTS_REQUEST, types.CONTACTS_SUCCESS, types.CONTACTS_FAILURE],
+    promise: fetch(url),
+  };
+}
+
+/**
  * GET: localhost:8000/users/search/:{filter}
  * API call to retreive filtered list of users
  */
 export function filterContacts(currentFilter) {
-  if (currentFilter === '/') return fetchContacts();
+  if (currentFilter === '/') return loadContacts();
 
-  return dispatch => fetch(`//localhost:8000/users/search${currentFilter}`)
-    .then(response => response.json())
-    .then((data) => {
-      dispatch(receiveDataSuccess(data));
-    })
-    .catch(error => dispatch(receiveDataFailure(error)));
-}
-
-function receiveDataSuccess(data) {
-  const contacts = data.rows;
-  const contactsById = contacts.map((contact) => {
-    return {
-      id: contact.id,
-      first: contact.first,
-      last: contact.last,
-      phone: contact.phone,
-      cell: contact.cell,
-      email: contact.email,
-      username: contact.username,
-      picture: contact.picture,
-    };
-  });
-  const count = data.count;
-  return ({ type: types.CONTACTS_FETCHED, contactsById, count });
+  return {
+    types: [types.CONTACTS_REQUEST, types.CONTACTS_SUCCESS, types.CONTACTS_FAILURE],
+    promise: fetch(`//localhost:8000/users/search${currentFilter}`),
+  };
 }
 
 /**
@@ -64,34 +46,17 @@ function receiveDataSuccess(data) {
  * API call to retreive selected user
  */
 export function selectContact(itemId) {
-  // return (dispatch, getState) => {
-  //   const contacts = contactsSelectors.getContacts(getState());
-  //   const selectedContact = contacts.find(contact => contact.get('id') === itemId);
-  //   dispatch({ type: types.SHOW_ITEM, selectedContact });
-  // };
-  return dispatch => fetch(`//localhost:8000/user/${itemId}`)
-    .then(response => response.json())
-    .then((data) => {
-      const selectedContact = Map({
-        id: data.id,
-        first: data.first,
-        last: data.last,
-        phone: data.phone,
-        cell: data.cell,
-        email: data.email,
-        username: data.username,
-        picture: data.picture,
-      });
-      dispatch({ type: types.SHOW_ITEM, selectedContact });
-    })
-    .catch(error => dispatch(receiveDataFailure(error)));
+  return {
+    types: [types.CONTACT_REQUEST, types.CONTACT_SUCCESS, types.CONTACT_FAILURE],
+    promise: fetch(`//localhost:8000/user/${itemId}`),
+    itemId,
+  };
 }
-
 /**
- * PUT: localhost:8000/user/:{id}
- * API call to save changes set on the edited user
+ * Called when editing an existing contact
+ * Previous to saving the changes
  */
-export function doneEditingContact(itemId, labelText, newText) {
+export function editContact(itemId, labelText, newText) {
   return (dispatch, getState) => {
     const contactsById = contactsSelectors.getContacts(getState());
     const newList = contactsById.map((item) => {
@@ -101,46 +66,40 @@ export function doneEditingContact(itemId, labelText, newText) {
       return item;
     });
     const selectedContact = newList.find(contact => contact.get('id') === itemId);
-    const jsonSelectedContact = selectedContact.toJS();
-    fetch(`//localhost:8000/user/${itemId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: jsonSelectedContact,
-      }),
-    })
-    .then(response => response.json())
-    .then((data) => {
-      dispatch({ type: types.DONE_EDITING, newList, selectedContact });
-    })
-    .catch(error => dispatch(receiveDataFailure(error)));
+
+    dispatch(saveEditContact(itemId, newList, selectedContact));
   };
 }
 
 /**
- * DELETE: localhost:8000/user/:{id}
- * API call to delete contact
+ * PUT: localhost:8000/user/:{id}
+ * API call to save changes set on the edited user
  */
-export function deleteContact(itemId) {
-  return dispatch => fetch(`//localhost:8000/user/${itemId}`,
-    {
-      method: 'DELETE',
-    })
-    .then(response => response.json())
-    .then((data) => {
-      dispatch({ type: types.DELETE_ITEM, itemId });
-    })
-    .catch(error => dispatch(receiveDataFailure(error)));
+function saveEditContact(itemId, newList, selectedContact) {
+  const jsonSelectedContact = selectedContact.toJS();
+  return {
+    types: [types.EDIT_CONTACT_REQUEST, types.EDIT_CONTACT_SUCCESS, types.EDIT_CONTACT_FAILURE],
+    promise:
+      fetch(`//localhost:8000/user/${itemId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: jsonSelectedContact,
+        }),
+      }),
+    newList,
+    selectedContact,
+  };
 }
 
 /**
- * POST: localhost:8000/users
- *  Creating a new contact
+ * Called when an edition happens in new record.
+ * Previous to saving the record
  */
-export function editNewContact(labelText, newText) {
+export function newContact(labelText, newText) {
   return (dispatch, getState) => {
     const contacts = contactsSelectors.getContacts(getState());
     const itemId = contacts.reduce((maxId, item) => Math.max(maxId, item.get('id')), 0) + 1;
@@ -156,40 +115,67 @@ export function editNewContact(labelText, newText) {
 
     const tobeaddItem = basket.set(labelText, newText);
     const newList = contacts.push(tobeaddItem).reverse();
-    const jsonNewContact = tobeaddItem.toJS();
 
-    fetch('//localhost:8000/users',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: jsonNewContact,
-        }),
-      })
-    .then(response => response.json())
-    .then((data) => {
-      dispatch({ type: types.EDIT_NEW_ITEM, tobeaddItem, newList });
-    })
-    .catch(error => dispatch(receiveDataFailure(error)));
+    dispatch(saveNewContact(tobeaddItem, newList));
   };
 }
 
-
-function receiveDataFailure(error) {
-  console.log(error, 'Theres been an error retreiving data');
+/**
+ * POST: localhost:8000/users
+ *  Creating a new contact
+ */
+function saveNewContact(tobeaddItem, newList) {
+  const jsonNewContact = tobeaddItem.toJS();
+  return {
+    types: [types.NEW_CONTACT_REQUEST, types.NEW_CONTACT_SUCCESS, types.NEW_CONTACT_FAILURE],
+    promise:
+      fetch('//localhost:8000/users',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data: jsonNewContact,
+          }),
+        }),
+    tobeaddItem,
+    newList,
+  };
 }
 
+/**
+ * DELETE: localhost:8000/user/:{id}
+ * API call to delete contact
+ */
+export function deleteContact(itemId) {
+  return {
+    types: [types.DELETE_CONTACT_REQUEST, types.DELETE_CONTACT_SUCCESS, types.DELETE_CONTACT_FAILURE],
+    promise:
+      fetch(`//localhost:8000/user/${itemId}`,
+        {
+          method: 'DELETE',
+        }),
+    itemId,
+  };
+}
+
+/**
+ * Called when selecting AddNew button.
+ * Shows a new record prepared to be saved.
+ * (Won't save unless an edition happens and ENTER in pressed)
+ */
 export function addNewContact() {
   return ({ type: types.NEW_ITEM });
 }
 
-export function editContact() {
-  return ({ type: types.EDIT_ITEM });
+// Called when an editin of a record is started
+export function editingContact() {
+  return ({ type: types.EDITING_CONTACT });
 }
 
+// Called when a record edition has been canceled
 export function cancelEditingContact() {
-  return ({ type: types.CANCEL_EDITING });
+  return ({ type: types.CANCEL_EDITING_CONTACT });
 }

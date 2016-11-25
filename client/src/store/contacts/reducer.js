@@ -6,45 +6,87 @@ const initialState = fromJS({
   selected: undefined,
   isPhantom: false,
   count: 0,
+  isFetching: false,
+  error: null,
 });
 
 export default function reduce(state = initialState, action = {}) {
   switch (action.type) {
-    case types.CONTACTS_FETCHED:
+    case types.NEW_CONTACT_REQUEST:
+    case types.EDIT_CONTACT_REQUEST:
+    case types.CONTACT_REQUEST:
+    case types.CONTACTS_REQUEST:
       return state.merge({
-        contactsById: action.contactsById,
-        count: action.count,
+        isFetching: true,
+        error: null,
       });
-    case types.NEW_ITEM:
+    case types.CONTACTS_SUCCESS:
       return state.merge({
-        isPhantom: true,
+        isFetching: false,
+        count: action.result.count,
+        contactsById: List(action.result.rows.map((contact) => {
+          return Map({
+            id: contact.id,
+            first: contact.first,
+            last: contact.last,
+            phone: contact.phone,
+            cell: contact.cell,
+            email: contact.email,
+            username: contact.username,
+            picture: contact.picture,
+          });
+        })),
       });
-    case types.DELETE_ITEM:
+    case types.DELETE_CONTACT_FAILURE:
+    case types.NEW_CONTACT_FAILURE:
+    case types.EDIT_CONTACT_FAILURE:
+    case types.CONTACT_FAILURE:
+    case types.CONTACTS_FAILURE:
+      return state.merge({
+        isFetching: false,
+        error: action.error,
+      });
+    case types.CONTACT_SUCCESS:
+      return state.merge({
+        isFetching: false,
+        // isPhantom: false,
+        selected:
+          Map({
+            id: action.result.id,
+            first: action.result.first,
+            last: action.result.last,
+            phone: action.result.phone,
+            cell: action.result.cell,
+            email: action.result.email,
+            username: action.result.username,
+            picture: action.result.picture,
+          }),
+      });
+    case types.EDIT_CONTACT_SUCCESS:
+      return state.merge({
+        contactsById: action.newList,
+        selected: action.selectedContact,
+      });
+    case types.NEW_CONTACT_SUCCESS:
+      return state.merge({
+        contactsById: action.newList,
+        isPhantom: false,
+        isFetching: false,
+        selected: action.tobeaddItem,
+      });
+    case types.DELETE_CONTACT_SUCCESS:
       return state.update('contactsById',
         contacts => contacts.filterNot(
           item => item.get('id') === action.itemId
         )
       );
-    case types.SHOW_ITEM:
+    case types.NEW_ITEM:
       return state.merge({
-        selected: action.selectedContact,
-        isPhantom: false,
+        isPhantom: true,
       });
-    case types.EDIT_NEW_ITEM:
-      return state.merge({
-        contactsById: action.newList,
-        isPhantom: false,
-        selected: action.tobeaddItem,
-      });
-    case types.EDIT_ITEM:
-      return state;
-    case types.CANCEL_EDITING:
-      return state;
-    case types.DONE_EDITING:
-      return state.merge({
-        contactsById: action.newList,
-        selected: action.selectedContact,
-      });
+    case types.EDITING_CONTACT:
+    case types.CANCEL_EDITING_CONTACT:
+    case types.DELETE_CONTACT_REQUEST:
     default:
       return state;
   }

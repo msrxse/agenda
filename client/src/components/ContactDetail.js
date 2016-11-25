@@ -31,7 +31,7 @@ export default class ContactDetail extends Component {
 
         {detail.entrySeq().map(values =>
           <DetailRow
-            key={values[0]}
+            key={`${values[0]}${values[1]}`}
             labelText={this.props.isPhantom ? values[1] : values[0]}
             text={this.props.isPhantom ? values[0] : values[1]}
             itemId={this.props.isPhantom ? null : detail.get('id')}

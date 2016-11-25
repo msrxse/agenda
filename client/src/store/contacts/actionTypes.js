@@ -1,15 +1,29 @@
-export const CONTACTS_FETCHED = 'contacts.CONTACTS_FETCHED';
-export const CHANGE_FILTER = 'contacts.CHANGE_FILTER';
-export const NEW_ITEM = 'contacts.NEW_ITEM';
-export const SHOW_ITEM = 'contacts.SHOW_ITEM';
-export const DELETE_ITEM = 'contacts.DELETE_ITEM';
+export const CONTACTS_REQUEST = 'CONTACTS_REQUEST';
+export const CONTACTS_SUCCESS = 'CONTACTS_SUCCESS';
+export const CONTACTS_FAILURE = 'CONTACTS_FAILURE';
 
-export const EDIT_NEW_ITEM = 'contacts.EDIT_NEW_ITEM';
-export const EDIT_ITEM = 'contacts.EDIT_ITEM';
-export const CANCEL_EDITING = 'contacts.CANCEL_EDITING';
-export const DONE_EDITING = 'contacts.DONE_EDITING';
+export const CONTACT_REQUEST = 'CONTACT_REQUEST';
+export const CONTACT_SUCCESS = 'CONTACT_SUCCESS';
+export const CONTACT_FAILURE = 'CONTACT_FAILURE';
 
-export const LOAD_DATA_FAILURE = 'contacts.LOAD_DATA_FAILURE';
+export const EDIT_CONTACT_REQUEST = 'EDIT_CONTACT_REQUEST';
+export const EDIT_CONTACT_SUCCESS = 'EDIT_CONTACT_SUCCESS';
+export const EDIT_CONTACT_FAILURE = 'EDIT_CONTACT_FAILURE';
+
+export const NEW_CONTACT_REQUEST = 'NEW_CONTACT_REQUEST';
+export const NEW_CONTACT_SUCCESS = 'NEW_CONTACT_SUCCESS';
+export const NEW_CONTACT_FAILURE = 'NEW_CONTACT_FAILURE';
+
+export const DELETE_CONTACT_REQUEST = 'DELETE_CONTACT_REQUEST';
+export const DELETE_CONTACT_SUCCESS = 'DELETE_CONTACT_SUCCESS';
+export const DELETE_CONTACT_FAILURE = 'DELETE_CONTACT_FAILURE';
+
+// Synchronous ActionTypes
+
+export const NEW_ITEM = 'NEW_ITEM'; // Prepares new contact ready to be saved
+export const EDITING_CONTACT = 'EDITING_CONTACT';
+export const CANCEL_EDITING_CONTACT = 'CANCEL_EDITING_CONTACT';
+
 
 /*
  |----------------------
