@@ -113,3 +113,13 @@ export function getCount(state) {
   const count = state.contacts.get('count');
   return count;
 }
+
+export function getError(state) {
+  const count = state.contacts.get('error');
+  return count;
+}
+
+export function getIsFetching(state) {
+  const count = state.contacts.get('isFetching');
+  return count;
+}

@@ -13,13 +13,13 @@ export default class ContactDetail extends Component {
   renderLoading(msg) {
     return (
       <div className="display">
-        {msg ? <p>No users found</p> : <p>Loading...</p>}
+        <p>{msg}</p>
       </div>
     );
   }
 
   render() {
-    if (!this.props.contactsById) return this.renderLoading();
+    if (!this.props.contactsById) return this.renderLoading('Loading...');
     const detail = this.props.selected || this.props.contactsById.first();
     if (!detail) return this.renderLoading('No users found');
     return (

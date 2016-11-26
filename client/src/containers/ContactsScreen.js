@@ -68,10 +68,28 @@ class ContactsScreen extends Component {
     );
   }
 
+  renderErrorMessage() {
+    const { error } = this.props;
+    if (!error) {
+      return null;
+    }
+
+    return (
+      <div id="message" className="alert alert-danger fade in">
+        <p><strong>{error.toString()}</strong></p>
+        <p>{'Try reloading again'}</p>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="ContactsScreen">
+
+        {this.renderErrorMessage()}
+
         <ContactDetail
+          isFetching={this.props.isFetching}
           selected={this.props.selected}
           contactsById={this.props.contactsById}
           isPhantom={this.props.isPhantom}
@@ -81,6 +99,7 @@ class ContactsScreen extends Component {
           doneEditing={this.doneEditing}
         />
         <ContactsList
+          isFetching={this.props.isFetching}
           contactsById={this.props.contactsById}
           count={this.props.count}
           changePage={this.handlePagination}
@@ -101,6 +120,8 @@ function mapStateToProps(state, ownProps) {
     selected: contactsSelectors.getSelected(state),
     isPhantom: contactsSelectors.getIsPhantom(state),
     count: contactsSelectors.getCount(state),
+    error: contactsSelectors.getError(state),
+    isFetching: contactsSelectors.getIsFetching(state),
   };
 }
 
