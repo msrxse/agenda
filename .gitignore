@@ -37,3 +37,19 @@ config/runtime.yaml
 /client/node_modules
 /client/bundle.js
 /client/npm-debug.log
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

@@ -140,4 +140,22 @@ The input fields shown when detail row is in edit mode got 3 handles.
 
 Test acctions withing the contacts list. Seleccton should occur when click on image, amd when hovering over an item, the delete button should appear. Selecting it should delete item from the list and the database.
 
+## Refactorizations
 
+This is far from a finished app, here are some actuations that may be done or not at the time of reading:
+
+√ [1] Added promisse middleware:
+        Now we handle all API communication in one place.
+      Firing: Initial request and possible fealure handlers
+        So we are catching those in the reducers and updating the app accordingly (for loading and error states)
+      
+     
+√ [2] Refactor reducers: Moved functionality from action-creators to reducer.
+      While reducers still pure.
+      Now action-creator's code is more DRY (no spaguetty code)
+
+
+* [3] To be done: Normalize state:
+       **contactsById** becomes object Indexed by Id (instead of array of objects). Add **contactsByIdArray**. This array  of id's is used by selectors to iterate throught it creating the array of objects needed to be consumed by views.
+       This analogous to what the the Normalizr library does. Transforming the nested response data into a normalized shape suitable for integration into the store. See [Normalizr](https://github.com/paularmstrong/normalizr) - Normalizr.
+       
