@@ -8,16 +8,30 @@
 ## Initialization - Server Side
 
     - Create a mysql database called agenda with charset UTF-8
-To fill the database with users:
+
+Set yourself in the project folder:
+
+```
+npm install
+```
+
+then, To fill the database with users:
 
 ```
 npm run seed
 ```
 
-To start the server:
+Then go into the client folder and install dependencies:
 
 ```
-npm start
+cd client & npm install
+```
+
+To start the server:
+
+
+```
+cd ../ & npm start
 ```
 
 ## Initialization - Client side
@@ -27,7 +41,7 @@ cd into the client folder
 To install dependencies:
 
 ```
-npm install
+cd client & npm install
 ```
 
 then, to run the Dev Server:
