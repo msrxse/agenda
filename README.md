@@ -7,8 +7,7 @@
 
 ## Initialization - Server Side
 
-    - Create a mysql database called agenda with charset UTF-8
-
+Create a mysql database called agenda with charset UTF-8
 Set yourself in the project folder:
 
 ```
@@ -21,17 +20,10 @@ then, To fill the database with users:
 npm run seed
 ```
 
-Then go into the client folder and install dependencies:
-
-```
-cd client & npm install
-```
-
 To start the server:
 
-
 ```
-cd ../ & npm start
+npm start
 ```
 
 ## Initialization - Client side
@@ -41,7 +33,7 @@ cd into the client folder
 To install dependencies:
 
 ```
-cd client & npm install
+cd client && npm install
 ```
 
 then, to run the Dev Server:
@@ -50,6 +42,7 @@ then, to run the Dev Server:
 npm start
 ```
 
+The app is available at
 
     - Visit http://localhost:8080
 
@@ -173,3 +166,4 @@ This is far from a finished app, here are some actuations that may be done or no
        **contactsById** becomes object Indexed by Id (instead of array of objects). Add **contactsByIdArray**. This array  of id's is used by selectors to iterate throught it creating the array of objects needed to be consumed by views.
        This analogous to what the the Normalizr library does. Transforming the nested response data into a normalized shape suitable for integration into the store. See [Normalizr](https://github.com/paularmstrong/normalizr) - Normalizr.
        
+* [4] To be done: Seems messy to have to go back and forth starting servers, integration of all servers is possible and I am planning on doing it Isomorphic and all.
