@@ -1,5 +1,8 @@
 # Contacts App
 
+![alt tag](http://assets.fincaspace.com/img/agenda-screenshot.png)
+
+
 ## Requirements
 
     - Node.js Version 5.9.1
