@@ -1,7 +1,6 @@
 # Contacts App
 
-![alt tag](http://assets.fincaspace.com/img/agenda-screenshot.png)
-
+## Warning! This project is very old at this point! Some of the ideas may be fine would not recommend you use it as a modern reference
 
 ## Requirements
 
