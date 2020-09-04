@@ -10,7 +10,7 @@
   "dependencies": {
     "express": "^4.12.3",
     "mysql": "^2.11.1",
-    "sequelize": "^3.24.3",
+    "sequelize": "^6.3.5",
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
